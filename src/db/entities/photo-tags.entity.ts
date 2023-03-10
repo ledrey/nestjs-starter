@@ -2,26 +2,36 @@ import {
   Entity,
   Column,
   PrimaryGeneratedColumn,
-  OneToMany,
+  ManyToOne,
+  JoinColumn,
   CreateDateColumn,
   DeleteDateColumn,
   UpdateDateColumn,
 } from 'typeorm';
 import Photo from './photo.entity';
 
+export enum PhotoTagEnum {
+  PORTRAIT = 'portrait',
+  NATURE = 'nature',
+  CARTOON = 'cartoon',
+}
+
 @Entity()
-export default class User {
+export default class PhotoTags {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column()
-  firstName: string;
+  @Column({
+    name: 'tag_type',
+    type: 'enum',
+    enum: PhotoTagEnum,
+    default: PhotoTagEnum.PORTRAIT,
+  })
+  tagType: PhotoTagEnum;
 
-  @Column()
-  lastName: string;
-
-  @Column({ default: true })
-  isActive: boolean;
+  @ManyToOne(() => Photo, (photo) => photo.tags)
+  @JoinColumn({ name: 'photo_id' })
+  tag: Photo;
 
   @CreateDateColumn({ name: 'created_at' })
   createdAt: Date;
@@ -31,7 +41,4 @@ export default class User {
 
   @DeleteDateColumn({ name: 'deleted_at' })
   deletedAt: Date;
-
-  @OneToMany(() => Photo, (photo) => photo.user)
-  photos: Photo[];
 }

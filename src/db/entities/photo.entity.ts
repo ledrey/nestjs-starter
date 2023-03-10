@@ -4,6 +4,10 @@ import {
   PrimaryGeneratedColumn,
   ManyToOne,
   JoinColumn,
+  CreateDateColumn,
+  DeleteDateColumn,
+  UpdateDateColumn,
+  OneToMany,
 } from 'typeorm';
 import User from './user.entity';
 
@@ -13,15 +17,24 @@ export default class Photo {
   id: number;
 
   @Column()
-  firstName: string;
+  title: string;
 
   @Column()
-  lastName: string;
-
-  @Column({ default: true })
-  isActive: boolean;
+  description: string;
 
   @ManyToOne(() => User, (user) => user.photos)
   @JoinColumn({ name: 'user_id' })
   user: User;
+
+  @CreateDateColumn({ name: 'created_at' })
+  createdAt: Date;
+
+  @UpdateDateColumn({ name: 'updated_at' })
+  updatedAt: Date;
+
+  @DeleteDateColumn({ name: 'deleted_at' })
+  deletedAt: Date;
+
+  @OneToMany(() => Photo, (tag) => tag.user)
+  tags: Photo[];
 }

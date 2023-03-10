@@ -1,7 +1,7 @@
 
 ## Description
 
-A testing application built using [Nest](https://github.com/nestjs/nest) framework TypeScript.
+A testing application built using [Nest](https://github.com/nestjs/nest) & [Typeorm](https://github.com/typeorm/typeorm) frameworks.
 
 ## Support
 
